@@ -1,0 +1,111 @@
+package com.user.service;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import com.user.exception.UserNotFoundException;
+import com.user.model.User;
+import com.user.repository.UserRepository;
+
+
+public class UserServiceImpl implements UserService {
+	
+	@Autowired	
+	private UserRepository userRepository;
+	@Autowired
+	private UserServiceUtility userServiceUtility;
+		
+//	@Autowired
+//	public UserServiceImpl(UserRepository userRepository,UserServiceUtility userServiceUtility) {
+//	    this.userRepository = userRepository;
+//	    this.userServiceUtility = userServiceUtility;
+//	}
+	
+	@GetMapping("users")
+	public List<User> getUsers() {
+		List<User> users = this.userRepository.findAll();	
+		return userServiceUtility.sortUsersByName(users);
+	}
+
+	@Override
+	public User getUserById(Long id) throws UserNotFoundException {
+//		User user = this.userRepository.findById(userId)
+//				.orElseThrow(() -> new Exception("User not found for this id :: " + userId));
+//		return ResponseEntity.ok().body(user);
+		
+		User user;
+        if (userRepository.findById(id).isPresent()) {
+            throw new UserNotFoundException();
+        } else {
+            user = userRepository.findById(id).get();
+        }
+        return user;
+	}
+	
+	@Override
+	public List<User> getUserByEmailAndPassword(User user) {
+		User userRes = this.userRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
+		List<User> users = new ArrayList<User>();
+		
+		//return users;
+		//return ResponseEntity.ok().body(userRes);
+		
+        if (userRes == null) {
+            throw new UserNotFoundException();
+        } else {
+        	users.add(userRes);
+        }
+        return users;
+	}
+
+/*	@Override
+	public User createuser(User user) {
+		return userRepository.save(user);
+	}
+
+	@Override
+	public ResponseEntity<User> updateuser(Long userId,
+			User userDetails) throws Exception {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new Exception("User not found for this id :: " + userId));
+
+		user.setEmail(userDetails.getEmail());
+		user.setName(userDetails.getName());
+		user.setPassword(userDetails.getPassword());
+		user.setRole(userDetails.getRole());
+		final User updateduser = userRepository.save(user);
+		return ResponseEntity.ok(updateduser);
+	}
+
+	@Override
+	public Map<String, Boolean> deleteUser( Long userId) throws Exception  {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new Exception("user not found for this id :: " + userId));
+
+		userRepository.delete(user);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+
+	@Override
+	public ResponseEntity<User> updateUserPartially(Long id,String firstName) {
+		try {
+			User user = this.userRepository.findById(id).get();
+			user.setName(firstName);
+			return new ResponseEntity<User>(this.userRepository.save(user), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	*/
+	
+
+
+	
+}

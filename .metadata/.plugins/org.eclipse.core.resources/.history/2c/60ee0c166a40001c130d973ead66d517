@@ -1,0 +1,21 @@
+package com.user.service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.user.model.User;
+
+public class UserServiceUtility {
+
+//	public List<User> sortUsersByName(List<User> users) {
+//		return  users.stream()
+//		        .sorted(Comparator.comparing(User::getName))
+//		        .collect(Collectors.toList());
+//	}
+
+	public List<User> sortUsersByName(List<User> users) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

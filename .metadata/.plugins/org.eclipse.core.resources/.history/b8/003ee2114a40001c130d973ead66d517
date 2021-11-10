@@ -1,0 +1,19 @@
+package com.user.service;
+
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+
+import com.user.model.User;
+
+
+public interface UserService {
+	public List<User> sortUsersByName(List<User> users);
+
+	List<User> getUsers();
+
+	ResponseEntity<User> getUserById(Long userId) throws Exception;
+
+	List<User> getUserByEmailAndPassword(User user);
+	
+}

@@ -1,0 +1,15 @@
+package com.user.service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.user.model.User;
+
+
+public Interface UserService {
+	public List<User> sortUsersByName(List<User> users);
+	
+}

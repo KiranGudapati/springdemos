@@ -1,0 +1,12 @@
+package com.user.exception;
+
+public class UserNotFoundException {
+
+	private String message;
+    public UserNotFoundException(String message) {
+        super(message);
+        this.message = message;
+    }
+    public UserNotFoundException() {
+    }
+}
